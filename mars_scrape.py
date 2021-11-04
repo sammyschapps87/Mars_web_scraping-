@@ -5,9 +5,7 @@ import datetime as dt
 from bs4 import BeautifulSoup as bs
 from splinter import Browser
 from selenium import webdriver
-driver = webdriver.Chrome()
 from webdriver_manager.chrome import ChromeDriverManager
-driver = webdriver.Chrome(ChromeDriverManager().install())
 
 
 def scrape():
@@ -85,5 +83,5 @@ def scrape():
     }
 
     browser.quit()
-    return data
+    return df
 
