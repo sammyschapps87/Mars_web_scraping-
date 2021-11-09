@@ -20,12 +20,11 @@ def scrape():
     print(title)
     paragraph = soup.find('div', class_ = 'article_teaser_body').get_text()
     print(paragraph)
-    path = {'executable_path': 'chromedriver.exe'}
 
 
-    browser = Browser('chrome', **path, headless = False)
+    browser = Browser('chrome', **path)
     url_image = 'https://spaceimages-mars.com/'
-    browser.visit(url)
+    browser.visit(url_image)
 
     html = browser.html
     soup = bs(html, 'html.parser')
@@ -34,19 +33,15 @@ def scrape():
     print(article)
 
     full_path = 'https://spaceimages-mars.com/image/featured/mars2.jpg'
-    full_path
 
 
     url_facts = 'https://galaxyfacts-mars.com/'
     df_facts = pd.read_html(url_facts, header=0)[0]
-    df_facts
     df_facts.set_index('Mars - Earth Comparison')
 
 
-    df_facts.to_html()
 
-    path = {'executable_path': 'chromedriver.exe'}
-    browser = Browser('chrome', **path, headless = False)
+    browser = Browser('chrome', **path)
     url_images_2 = 'https://marshemispheres.com/'
     browser.visit(url_images_2)
     html = browser.html
@@ -74,14 +69,20 @@ def scrape():
         browser.links.find_by_partial_text('Back').click()
 
     
-    df = {
+    print('*****SCRAPING DONE*******', flush=True)
+
+    df = pd.DataFrame({
         'news_title': title,
         'news_paragraph': paragraph,
         'featured_image': imgurl,
-        'facts': df_facts,
+        'facts': df_facts.to_json(),
         'hemiospheres': images_hemisphere
-    }
+    })
+    
 
     browser.quit()
     return df
+
+
+
 
